@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Create a Route with Mapbox GL JS</title>
+    <title>Create and Display a Route using Mapbox Directions API</title>
     <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
     <link href="https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.css" rel="stylesheet">
     <script src="https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.js"></script>
@@ -24,35 +24,45 @@
     });
 
     map.on('load', function () {
-        map.addSource('route', {
-            'type': 'geojson',
-            'data': {
-                'type': 'Feature',
-                'properties': {},
-                'geometry': {
-                    'type': 'LineString',
-                    'coordinates': [
-                        [-74.50, 40],
-                        [-74.60, 40.10]
-                        // Add more coordinates to define the route
-                    ]
-                }
-            }
-        });
+        // Define waypoints
+        const waypoints = [
+            [-74.50, 40],
+            [-74.60, 40.10]
+            // Add more waypoints as needed
+        ];
 
-        map.addLayer({
-            'id': 'route',
-            'type': 'line',
-            'source': 'route',
-            'layout': {
-                'line-join': 'round',
-                'line-cap': 'round'
-            },
-            'paint': {
-                'line-color': '#888',
-                'line-width': 8
-            }
-        });
+        // Construct the request URL for Mapbox Directions API
+        const directionsRequest = `https://api.mapbox.com/directions/v5/mapbox/driving/${waypoints.join(';')}?geometries=geojson&access_token=${mapboxgl.accessToken}`;
+
+        // Make a request to the Directions API
+        fetch(directionsRequest)
+            .then(response => response.json())
+            .then(data => {
+                const route = data.routes[0].geometry;
+
+                map.addSource('route', {
+                    'type': 'geojson',
+                    'data': {
+                        'type': 'Feature',
+                        'properties': {},
+                        'geometry': route
+                    }
+                });
+
+                map.addLayer({
+                    'id': 'route',
+                    'type': 'line',
+                    'source': 'route',
+                    'layout': {
+                        'line-join': 'round',
+                        'line-cap': 'round'
+                    },
+                    'paint': {
+                        'line-color': '#FF0000',
+                        'line-width': 5
+                    }
+                });
+            });
     });
 </script>
 </body>
