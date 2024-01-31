@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 500 500">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+        stroke: #2c2c3d;
+        stroke-miterlimit: 10;
+        stroke-width: 10px;
+      }
+    </style>
+  </defs>
+  <image width="512" height="512" transform="translate(142 122) scale(.5)" xlink:href="../../Desktop/beer-outline-filled/512x512.png"/>
+  <circle class="cls-1" cx="259.23" cy="250" r="212.31"/>
+</svg>
